@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Comparable/Comparable.iml" filepath="$PROJECT_DIR$/Comparable/Comparable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HES_643-1_Java.iml" filepath="$PROJECT_DIR$/HES_643-1_Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ListsAndSets/ListsAndSets.iml" filepath="$PROJECT_DIR$/ListsAndSets/ListsAndSets.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Threads/Threads.iml" filepath="$PROJECT_DIR$/Threads/Threads.iml" />
+    </modules>
+  </component>
+</project>

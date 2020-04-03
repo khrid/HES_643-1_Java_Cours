@@ -1,4 +1,4 @@
-package SimpleSac;
+package simpleSac;
 
 public class Job implements Runnable {
     Sac sac;

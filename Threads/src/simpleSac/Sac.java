@@ -1,4 +1,4 @@
-package SimpleSac;
+package simpleSac;
 
 import java.util.ArrayList;
 

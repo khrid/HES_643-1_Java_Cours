@@ -1,6 +1,7 @@
 package mvcSlider;
 
 import javax.swing.*;
+import javax.swing.JToggleButton.*;
 
 public class TestMvcSlider {
     public static void main(String[] args) {
@@ -16,9 +17,9 @@ public class TestMvcSlider {
                 new DefaultBoundedRangeModel()};
 
         // Modèle pour les checkboxes (bien prendre ToggleButtonModel sinon pas cliquable)
-        ButtonModel[] checkBoxModels = {new JToggleButton.ToggleButtonModel(),
-                new JToggleButton.ToggleButtonModel(),
-                new JToggleButton.ToggleButtonModel()};
+        ButtonModel[] checkBoxModels = {new ToggleButtonModel(),
+                new ToggleButtonModel(),
+                new ToggleButtonModel()};
 
         // Frame 1
         ViewSlider slider1 = new ViewSlider(sliderModels, checkBoxModels);

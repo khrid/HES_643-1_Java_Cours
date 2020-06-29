@@ -1,5 +1,7 @@
 package intro;
 
+import org.hsqldb.ExpressionPeriod;
+
 import javax.xml.transform.Result;
 import java.sql.*;
 
@@ -55,7 +57,7 @@ public class HSQLDBIntro {
         stmt_updatable.execute("select pers_id, pers_prenom, pers_nom from personne");
         ResultSet r = stmt_updatable.getResultSet();
         while (r.next()) {
-            r.updateString("pers_prenom", "Test updateString");
+            r.updateString("pers_prenom", "update");
                 // ^ updateString gère l'échappement des caractères. Tant qu'on a une chaîne valide pour Java c'est OK
                 // par exemple pour les ' , pas besoin des les échapper avec \ ou de les doubler
             r.updateRow(); // = commit
@@ -63,7 +65,59 @@ public class HSQLDBIntro {
         stmt_updatable.close();
         print();
 
+
+        /* delete 2.0 */
+        Statement stmt_deletable = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        stmt_deletable.execute("select pers_id, pers_prenom, pers_nom from personne");
+        r = stmt_deletable.getResultSet();
+        while (r.next()) {
+            if(r.getString("pers_nom").equals("Gates")) {
+                r.deleteRow();
+            }
+        }
+        stmt_deletable.close();
+        print();
+
+
+        /* insert 2.0 */
+        /*Statement stmt_insertable = con.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+        stmt_insertable.execute("select pers_id, pers_prenom, pers_nom from personne");
+        r = stmt_insertable.getResultSet();
+        int id = r.getInt("pers_id")-1;
+        r.moveToInsertRow(); // on se déplace sur la dernière ligne
+        r.updateInt("pers_id", id); // id
+        r.updateString("pers_prenom", "David"); // prenom
+        r.updateString("pers_nom", "Crittin"); // nom
+        r.insertRow(); // on insère la ligne
+        stmt_insertable.close(); // fermeture du statement
+        print();*/
+
+        /* prepared statement */
+        PreparedStatement prepInsert = con.prepareStatement("insert into personne(pers_id, pers_prenom, pers_nom) values(?,?,?)");
+        prepInsert.setInt(1, -5);
+        prepInsert.setString(2, "Test");
+        prepInsert.setString(3, "123");
+        prepInsert.execute();
+        prepInsert.setInt(1, -6);
+        prepInsert.setString(2, "Abc");
+        prepInsert.setString(3, "Def");
+        prepInsert.execute();
+        print();
+
+        PreparedStatement prepUpdate = con.prepareStatement("update personne set pers_prenom = ? where pers_id = ?");
+        prepUpdate.setString(1, "L'hirondelle");
+        prepUpdate.setInt(2, -5);
+        prepUpdate.execute();
+        print();
+
+        PreparedStatement prepDelete = con.prepareStatement("delete from personne where pers_id = ?");
+        prepDelete.setInt(1, -5);
+        prepDelete.execute();
+        print();
     }
+
+
+    /* TYPE_SCROLL_SENSTIVE => pour voir les modifs de tout le monde */
 
     public void print() throws SQLException {
         System.out.println("-----------------------");
@@ -77,8 +131,8 @@ public class HSQLDBIntro {
         while (r.next()) {
             // on affiche les informations que l'on souhaite
             System.out.println(r.getInt("pers_id") +
-                    " " + r.getString("pers_prenom") +
-                    " " + r.getString("pers_nom"));
+                    "\t" + r.getString("pers_prenom") +
+                    "\t" + r.getString("pers_nom"));
         }
         System.out.println("\n");
         // fermeture de la connexion
